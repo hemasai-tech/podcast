@@ -1,5 +1,5 @@
 import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
@@ -8,6 +8,7 @@ import SearchScreen from '../components/search/SearchScreen';
 import LibraryScreen from '../components/library/LibraryScreen';
 import PodcastDetailsScreen from '../components/podcastDetails/PodcastDetailsScreen';
 import { theme } from '../constants/theme';
+import MiniPlayer from '../components/miniPlayer/MiniPlayer';
 
 const MainTab = createBottomTabNavigator();
 
@@ -27,12 +28,12 @@ const ListenNowStackScreen = () => {
 const SearchStackScreen = () => {
   return (
     <SearchStack.Navigator
-     screenOptions={{
-      headerTintColor: theme.color.blueLight,
-      headerTitleStyle: {
-        color: theme.color.black,
-      },
-    }}>
+      screenOptions={{
+        headerTintColor: theme.color.blueLight,
+        headerTitleStyle: {
+          color: theme.color.black,
+        },
+      }}>
       <SearchStack.Screen name='SearchScreen' component={SearchScreen} options={{ title: 'Search', headerTitleAlign: 'center' }} />
       <SearchStack.Screen name='PodcastDetails' component={PodcastDetailsScreen} options={{ title: 'Search', headerTitleAlign: 'center' }} />
     </SearchStack.Navigator>
@@ -49,28 +50,38 @@ const LibraryStackScreen = () => {
 const MainTabNavigator = () => {
   return (
     <MainTab.Navigator
-    screenOptions={{
-      tabBarActiveTintColor: theme.color.blueLight,
-    }}
+      screenOptions={{
+        tabBarActiveTintColor: theme.color.blueLight,
+      }}
+      tabBar={(tabBarProps) => (
+        <>
+          <MiniPlayer />
+          <BottomTabBar {...tabBarProps} />
+        </>
+      )}
     >
-      <MainTab.Screen name="ListenNow"  component={ListenNowStackScreen} options={{ 
+      <MainTab.Screen name="ListenNow" component={ListenNowStackScreen} options={{
         headerShown: false,
         tabBarIcon: (props) => (
-            <FeatherIcon
-              color={props.color}
-              size={ICON_SIZE}
-              name="headphones"
-            />
-          ), }} />
-      <MainTab.Screen name="Search" component={SearchStackScreen} options={{ 
-        headerShown: false , 
+          <FeatherIcon
+            color={props.color}
+            size={ICON_SIZE}
+            name="headphones"
+          />
+        ),
+      }} />
+      <MainTab.Screen name="Search" component={SearchStackScreen} options={{
+        headerShown: false,
         tabBarIcon: (props) => (
-            <FeatherIcon color={props.color} size={ICON_SIZE} name="search" />
-          ),}} />
-      <MainTab.Screen name="Library" component={LibraryStackScreen} options={{ headerShown: false,  
-      tabBarIcon: (props) => (
-            <FeatherIcon color={props.color} size={ICON_SIZE} name="inbox" />
-          ), }} />
+          <FeatherIcon color={props.color} size={ICON_SIZE} name="search" />
+        ),
+      }} />
+      <MainTab.Screen name="Library" component={LibraryStackScreen} options={{
+        headerShown: false,
+        tabBarIcon: (props) => (
+          <FeatherIcon color={props.color} size={ICON_SIZE} name="inbox" />
+        ),
+      }} />
     </MainTab.Navigator>
   )
 }

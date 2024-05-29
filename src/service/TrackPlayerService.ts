@@ -6,4 +6,12 @@ module.exports  = async function () {
   TrackPlayer.addEventListener(Event.PlaybackState,(state)=>{
     console.log(state);
   })
+  TrackPlayer.addEventListener(Event.RemoteJumpBackward,async ({interval} : {interval:number})=>{
+    const position =  await TrackPlayer.getProgress().then((progress) => progress.position)
+    await TrackPlayer.seekTo(position + interval)
+  })
+  TrackPlayer.addEventListener(Event.RemoteJumpForward,async ({interval} : {interval:number})=>{
+    const position =  await TrackPlayer.getProgress().then((progress) => progress.position)
+    await TrackPlayer.seekTo(position - interval)
+  })
 };
