@@ -20,7 +20,7 @@ const SearchScreen = () => {
     SearchQueryVariables
   >(searchQuery);
 
-  const onSearch = async () => {
+  const onSearch = async () => {    
     try {
       await search({variables: {term}});
     } catch (error) {
