@@ -10,6 +10,7 @@ import { ApolloProvider } from '@apollo/client';
 import TrackPlayer, { Capability } from 'react-native-track-player';
 import { ActivityIndicator } from 'react-native';
 import { PlayerContextProvider } from './src/contexts/PlayerContext';
+import { DBContext, DBProvider } from './src/contexts/DBContext';
 
 const App = () => {
   const [isReady, setIsReady] = React.useState<boolean>(false);
@@ -35,22 +36,24 @@ const App = () => {
 
   return (
     <UtilityThemeProvider theme={theme}>
-      <ApolloProvider client={client}>
-        {isReady ?
-          <PlayerContextProvider>
-            <NavigationContainer>
-              <MainStackNavigation />
-            </NavigationContainer>
-          </PlayerContextProvider>
-          :
-          <Box f={1} center>
-            <ActivityIndicator
-              size={'large'}
-              color={'red'}
-            />
-          </Box>
-        }
-      </ApolloProvider>
+      <DBProvider>
+        <ApolloProvider client={client}>
+          {isReady ?
+            <PlayerContextProvider>
+              <NavigationContainer>
+                <MainStackNavigation />
+              </NavigationContainer>
+            </PlayerContextProvider>
+            :
+            <Box f={1} center>
+              <ActivityIndicator
+                size={'large'}
+                color={'red'}
+              />
+            </Box>
+          }
+        </ApolloProvider>
+      </DBProvider>
     </UtilityThemeProvider>
   );
 }

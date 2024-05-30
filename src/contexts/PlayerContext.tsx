@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 import RNTrackPlayer, {
   Track, State as TrackPlayerState, Event
 } from "react-native-track-player";
@@ -13,6 +13,11 @@ interface PlayerContextType {
   pause: () => void;
 }
 
+// Define the props for the component
+interface PlayerContextProviderProps {
+  children: ReactNode;
+}
+
 export const PlayerContext = React.createContext<PlayerContextType>({
   isPlaying: false,
   isPaused: false,
@@ -23,7 +28,7 @@ export const PlayerContext = React.createContext<PlayerContextType>({
   pause: () => null
 })
 
-export const PlayerContextProvider: React.FC = (props: PropsWithChildren<{}>) => {
+export const PlayerContextProvider: React.FC<PlayerContextProviderProps> = (props: PropsWithChildren<{}>) => {
   const [playerState, setPlayerState] = React.useState<null | TrackPlayerState>(null);
   const [currentTrack, setCurrentTrack] = React.useState<null | Track>(null);
 
