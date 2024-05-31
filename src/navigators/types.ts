@@ -5,4 +5,6 @@ export type SearchStackRouteParamsList = {
   PodcastDetails: {
     data: SearchQuery_search;
   };
+  Player : undefined;
+  Queue:undefined;
 };

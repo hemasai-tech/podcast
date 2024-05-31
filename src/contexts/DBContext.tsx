@@ -39,7 +39,6 @@ export const DBProvider: React.FC<DBProviderProps> = (props: PropsWithChildren) 
 
   const subToPodcast = async (podcast: PodcastModel) => {
     if (db.current) {
-      console.log(db.current, "");
 
       await db.current.subscribeToPodcast(podcast);
 

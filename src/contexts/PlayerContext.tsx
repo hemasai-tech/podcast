@@ -11,6 +11,8 @@ interface PlayerContextType {
   currentTrack: Track | null;
   play: (track?: Track) => void;
   pause: () => void;
+  seekTo: (amount?: number) => void;
+  goTo: (amount: number) => void;
 }
 
 // Define the props for the component
@@ -25,7 +27,9 @@ export const PlayerContext = React.createContext<PlayerContextType>({
   isEmpty: false,
   currentTrack: null,
   play: () => null,
-  pause: () => null
+  pause: () => null,
+  seekTo: () => null,
+  goTo: () => null
 })
 
 export const PlayerContextProvider: React.FC<PlayerContextProviderProps> = (props: PropsWithChildren<{}>) => {
@@ -61,8 +65,14 @@ export const PlayerContextProvider: React.FC<PlayerContextProviderProps> = (prop
     await RNTrackPlayer.pause();
   }
 
-  console.log(TrackPlayerState.Playing,'TrackPlayerState.Playing');
-  
+  const seekTo = async (amount = 30) => {
+    const position = await RNTrackPlayer.getPosition();
+    await RNTrackPlayer.seekTo(position + amount);
+  };
+
+  const goTo = async (amount: number) => {
+    await RNTrackPlayer.seekTo(amount);
+  };
 
   const value: PlayerContextType = {
     isPlaying: playerState === TrackPlayerState.Playing,
@@ -72,6 +82,8 @@ export const PlayerContextProvider: React.FC<PlayerContextProviderProps> = (prop
     currentTrack,
     pause,
     play,
+    seekTo,
+    goTo
   }
 
   return (
